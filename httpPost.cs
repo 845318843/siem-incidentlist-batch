@@ -11,7 +11,7 @@ namespace batchHandle
     class httpPost
     {
         static string url = "https://10.24.67.127:1688/es-service/api/updateIncidentHandleStatusBySoar";
-        static string content = "{'executeType':'其他处置','executeTypeId':3,'tags':'3','incidentId':'incidentId222','advice':'advice333','handleStatusId':'2','handleStatus':'处置完成'}";
+        
        
         /// <summary>
         ///  发送POST包
@@ -22,6 +22,7 @@ namespace batchHandle
         /// <returns>网页内容</returns>
         public static string Post(string incidentId, string advice, string token)
         {
+            string content = "{'executeType':'其他处置','executeTypeId':3,'tags':'3','incidentId':'incidentId222','advice':'advice333','handleStatusId':'2','handleStatus':'处置完成'}";
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072; //一定要有这一句
             ServicePointManager.CertificatePolicy = new AcceptAllCertificatePolicy();
 
