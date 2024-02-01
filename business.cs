@@ -26,7 +26,7 @@ namespace batchHandle
         /// <returns></returns>
         public string Query_30day_incident()
         {
-            string content = "{'queryInfo':[{'field':'create_time','opt':'between','valType':'datetimerange','value':'1704175514190_@#@_1706767514190_@#@_30d','eventAttr':'','label':''}],'pageSize':6000,'pageNum':1,'simpleConditionsZH':'','source':3,'customQuery':'','sort':[{'field':'severity,create_time','order':'desc'}]}";
+            string content = "{'queryInfo':[{'field':'create_time','opt':'between','valType':'datetimerange','value':'1706167434343_@#@_1806772234343_@#@_7d','eventAttr':'','label':''}],'pageSize':20,'pageNum':1,'simpleConditionsZH':'','source':3,'customQuery':'','sort':[{'field':'severity,create_time','order':'desc'}]}";
             content = content.Replace("'", "\"");
             string response_result = http_post.Post(query_url, content, token);
             string[] arr = response_result.Split('}');
