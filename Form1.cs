@@ -5,34 +5,31 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace batchHandle
 {
     public partial class Form1 : Form
     {
+   
         public Form1()
         {
             InitializeComponent();
         }
 
-       
+        static string incident_id_flag = "";
+
         private void btn_run_Click(object sender, EventArgs e)
         {
             try
             {
-                string[] advices = { 
-                "对该IP进行溯源后，发现并未受到影响。",
-                "跟踪发现，该攻击并未持续，未受到影响",
-                "在边界设备上将其加入黑名单封30分钟" };
+                Business business = new Business(textBox1.Text.Trim());
                 string[] str = new string[textBox2.Lines.Length];
                 for (int i = 0; i < textBox2.Lines.Length; i++)
                 {
                     str[i] = textBox2.Lines[i].Trim();
-                    if (!httpPost.Post(str[i], advices[i % 3], textBox1.Text).Contains("成功"))
-                    {
-                        MessageBox.Show("批量处理失败！" + str[i].ToString());
-                    }
+                    business.Update_incident(str[i]);
                 }
                 MessageBox.Show("批量处理全部完成！");
             }
@@ -40,7 +37,25 @@ namespace batchHandle
             {
                 MessageBox.Show("程序出现错误");
             }
-          
+        }
+
+        private void btn_auto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Business business = new Business(textBox1.Text.Trim());
+                string incident_id = business.Query_30day_incident();
+                if (business.Check_time() && incident_id_flag != incident_id && business.Update_incident(incident_id))
+                {
+                    incident_id_flag = incident_id;
+                    lbl_num.Text = (Convert.ToInt32(lbl_num.Text) + 1).ToString();
+                }
+                Console.WriteLine("success " + incident_id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error "+ ex.ToString());                
+            }
         }
     }
 }
